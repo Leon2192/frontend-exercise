@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Box, Typography, Paper, Divider, Checkbox, Button } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Paper,
+  Divider,
+  Checkbox,
+  Button,
+} from "@mui/material";
 import { useGlobalContext } from "../../../utilities/hooks/useGlobalContext";
 import { useNavigate } from "react-router-dom";
 
@@ -44,14 +51,28 @@ const TaskList: React.FC = () => {
         padding: 4,
       }}
     >
-      <Box sx={{ width: "100%", maxWidth: 500, alignSelf: "center", textAlign: "left" }}>
+      <Box
+        sx={{
+          width: "100%",
+          maxWidth: 800,
+          alignSelf: "center",
+          textAlign: "left",
+        }}
+      >
         <Typography variant="h4" gutterBottom>
           Lista de Tareas
         </Typography>
       </Box>
 
       {/* Tareas Pendientes */}
-      <Box sx={{ width: "100%", maxWidth: 500, alignSelf: "center", textAlign: "left" }}>
+      <Box
+        sx={{
+          width: "100%",
+          maxWidth: 800,
+          alignSelf: "center",
+          textAlign: "left",
+        }}
+      >
         <Typography variant="h5" gutterBottom>
           Tareas Pendientes
         </Typography>
@@ -62,11 +83,13 @@ const TaskList: React.FC = () => {
             key={task.id}
             sx={{
               width: "100%",
-              maxWidth: 500,
+              maxWidth: 800,
               padding: 2,
+              marginBottom: 2, 
               textAlign: "left",
               border: selectedTaskId === task.id ? "2px solid #1976d2" : "none",
-              backgroundColor: selectedTaskId === task.id ? "#e3f2fd" : "inherit",
+              backgroundColor:
+                selectedTaskId === task.id ? "#e3f2fd" : "inherit",
             }}
           >
             <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -78,10 +101,8 @@ const TaskList: React.FC = () => {
               <Box sx={{ flexGrow: 1 }}>
                 <Typography variant="h6">{task.title}</Typography>
                 <Typography variant="body2" color="text.secondary">
+                  {getCategoryName(task.category_id)}:{" "}
                   {task.description || "Sin descripción"}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Categoría: {getCategoryName(task.category_id)}
                 </Typography>
               </Box>
               {selectedTaskId === task.id && (
@@ -103,7 +124,7 @@ const TaskList: React.FC = () => {
                 </Box>
               )}
             </Box>
-            <Divider sx={{ mt: 1 }} />
+            
           </Paper>
         ))
       ) : (
@@ -113,7 +134,14 @@ const TaskList: React.FC = () => {
       <Divider sx={{ my: 4 }} />
 
       {/* Tareas Completadas */}
-      <Box sx={{ width: "100%", maxWidth: 500, alignSelf: "center", textAlign: "left" }}>
+      <Box
+        sx={{
+          width: "100%",
+          maxWidth: 800,
+          alignSelf: "center",
+          textAlign: "left",
+        }}
+      >
         <Typography variant="h5" gutterBottom>
           Tareas Completadas
         </Typography>
@@ -124,12 +152,13 @@ const TaskList: React.FC = () => {
             key={task.id}
             sx={{
               width: "100%",
-              maxWidth: 500,
+              maxWidth: 800,
               padding: 2,
-              marginBottom: 2,
+              marginBottom: 2, // Agregar margen inferior
               textAlign: "left",
               border: selectedTaskId === task.id ? "2px solid #1976d2" : "none",
-              backgroundColor: selectedTaskId === task.id ? "#e0f7fa" : "#f1f8e9",
+              backgroundColor:
+                selectedTaskId === task.id ? "#e0f7fa" : "#f1f8e9",
             }}
           >
             <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -141,10 +170,8 @@ const TaskList: React.FC = () => {
               <Box sx={{ flexGrow: 1 }}>
                 <Typography variant="h6">{task.title}</Typography>
                 <Typography variant="body2" color="text.secondary">
+                  {getCategoryName(task.category_id)}:{" "}
                   {task.description || "Sin descripción"}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Categoría: {getCategoryName(task.category_id)}
                 </Typography>
               </Box>
               {selectedTaskId === task.id && (
@@ -166,7 +193,7 @@ const TaskList: React.FC = () => {
                 </Box>
               )}
             </Box>
-            <Divider sx={{ mt: 1 }} />
+            
           </Paper>
         ))
       ) : (
