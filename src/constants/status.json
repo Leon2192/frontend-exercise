@@ -1,0 +1,12 @@
+{
+    "statuses": [
+        {
+            "id": "pending",
+            "label": "Pendiente"
+        },
+        {
+            "id": "completed",
+            "label": "Terminada"
+        }
+    ]
+}
