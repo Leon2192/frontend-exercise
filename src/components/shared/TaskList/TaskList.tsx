@@ -1,13 +1,11 @@
 import React, { useState } from "react";
-import { Box, Typography, Paper, Divider, Checkbox } from "@mui/material";
+import { Box, Typography, Paper, Divider, Checkbox, Button } from "@mui/material";
 import { useGlobalContext } from "../../../utilities/hooks/useGlobalContext";
-import EditTaskModal from "../EditTaskModal/EditTaskModal";
 import { useNavigate } from "react-router-dom";
 
 const TaskList: React.FC = () => {
-  const { tasks, categories } = useGlobalContext();
-  const [openEditModal, setOpenEditModal] = useState(false);
-  const [currentTaskId, setCurrentTaskId] = useState<string | null>(null);
+  const { tasks, setTasks, categories } = useGlobalContext();
+  const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null);
   const navigate = useNavigate();
 
   const pendingTasks = tasks.filter((task) => !task.completed);
@@ -18,13 +16,20 @@ const TaskList: React.FC = () => {
     return category ? category.name : "Sin categoría";
   };
 
-  const handleTaskClick = (taskId: string) => {
+  const handleSelectTask = (taskId: string) => {
+    setSelectedTaskId(selectedTaskId === taskId ? null : taskId);
+  };
+
+  const handleEditClick = (taskId: string) => {
     navigate(`/task/${taskId}`);
   };
 
-  const handleCloseEditModal = () => {
-    setOpenEditModal(false);
-    setCurrentTaskId(null);
+  const handleToggleComplete = (taskId: string) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task.id === taskId ? { ...task, completed: !task.completed } : task
+      )
+    );
   };
 
   return (
@@ -39,27 +44,14 @@ const TaskList: React.FC = () => {
         padding: 4,
       }}
     >
-      <Box
-        sx={{
-          width: "100%",
-          maxWidth: 500,
-          alignSelf: "center",
-          textAlign: "left",
-        }}
-      >
+      <Box sx={{ width: "100%", maxWidth: 500, alignSelf: "center", textAlign: "left" }}>
         <Typography variant="h4" gutterBottom>
           Lista de Tareas
         </Typography>
       </Box>
 
-      <Box
-        sx={{
-          width: "100%",
-          maxWidth: 500,
-          alignSelf: "center",
-          textAlign: "left",
-        }}
-      >
+      {/* Tareas Pendientes */}
+      <Box sx={{ width: "100%", maxWidth: 500, alignSelf: "center", textAlign: "left" }}>
         <Typography variant="h5" gutterBottom>
           Tareas Pendientes
         </Typography>
@@ -73,12 +65,14 @@ const TaskList: React.FC = () => {
               maxWidth: 500,
               padding: 2,
               textAlign: "left",
+              border: selectedTaskId === task.id ? "2px solid #1976d2" : "none",
+              backgroundColor: selectedTaskId === task.id ? "#e3f2fd" : "inherit",
             }}
           >
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <Checkbox
-                checked={false}
-                onChange={() => handleTaskClick(task.id)}
+                checked={selectedTaskId === task.id}
+                onChange={() => handleSelectTask(task.id)}
                 inputProps={{ "aria-label": "checkbox for task" }}
               />
               <Box sx={{ flexGrow: 1 }}>
@@ -90,6 +84,24 @@ const TaskList: React.FC = () => {
                   Categoría: {getCategoryName(task.category_id)}
                 </Typography>
               </Box>
+              {selectedTaskId === task.id && (
+                <Box sx={{ display: "flex", gap: 1 }}>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => handleEditClick(task.id)}
+                  >
+                    Editar
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => handleToggleComplete(task.id)}
+                  >
+                    Finalizar
+                  </Button>
+                </Box>
+              )}
             </Box>
             <Divider sx={{ mt: 1 }} />
           </Paper>
@@ -99,14 +111,9 @@ const TaskList: React.FC = () => {
       )}
 
       <Divider sx={{ my: 4 }} />
-      <Box
-        sx={{
-          width: "100%",
-          maxWidth: 500,
-          alignSelf: "center",
-          textAlign: "left",
-        }}
-      >
+
+      {/* Tareas Completadas */}
+      <Box sx={{ width: "100%", maxWidth: 500, alignSelf: "center", textAlign: "left" }}>
         <Typography variant="h5" gutterBottom>
           Tareas Completadas
         </Typography>
@@ -121,13 +128,14 @@ const TaskList: React.FC = () => {
               padding: 2,
               marginBottom: 2,
               textAlign: "left",
-              backgroundColor: "#e0f7fa",
+              border: selectedTaskId === task.id ? "2px solid #1976d2" : "none",
+              backgroundColor: selectedTaskId === task.id ? "#e0f7fa" : "#f1f8e9",
             }}
           >
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <Checkbox
-                checked={true}
-                onChange={() => handleTaskClick(task.id)}
+                checked={selectedTaskId === task.id}
+                onChange={() => handleSelectTask(task.id)}
                 inputProps={{ "aria-label": "checkbox for completed task" }}
               />
               <Box sx={{ flexGrow: 1 }}>
@@ -139,6 +147,24 @@ const TaskList: React.FC = () => {
                   Categoría: {getCategoryName(task.category_id)}
                 </Typography>
               </Box>
+              {selectedTaskId === task.id && (
+                <Box sx={{ display: "flex", gap: 1 }}>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => handleEditClick(task.id)}
+                  >
+                    Editar
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() => handleToggleComplete(task.id)}
+                  >
+                    Marcar como Pendiente
+                  </Button>
+                </Box>
+              )}
             </Box>
             <Divider sx={{ mt: 1 }} />
           </Paper>
@@ -146,12 +172,6 @@ const TaskList: React.FC = () => {
       ) : (
         <Typography variant="body1">No hay tareas completadas.</Typography>
       )}
-
-      <EditTaskModal
-        open={openEditModal}
-        onClose={handleCloseEditModal}
-        taskId={currentTaskId as string}
-      />
     </Box>
   );
 };

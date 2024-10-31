@@ -75,6 +75,7 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({
     <GlobalContext.Provider
       value={{
         tasks,
+        setTasks,
         categories,
         handleAddTask,
         handleEditTask,

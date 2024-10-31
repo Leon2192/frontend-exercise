@@ -14,6 +14,7 @@ export interface Task {
 
 export interface IGlobalContext {
   tasks: Task[];
+  setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
   categories: Category[];
   handleAddTask: (task: Omit<Task, "id">) => Promise<void>;
   handleEditTask: (id: string, task: Partial<Task>) => Promise<void>;
