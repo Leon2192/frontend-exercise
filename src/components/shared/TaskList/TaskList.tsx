@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { Box, Typography, Paper, Divider, Checkbox } from "@mui/material";
 import { useGlobalContext } from "../../../utilities/hooks/useGlobalContext";
-import EditTaskModal from "../EditTaskModal/EditTaskModal"; 
+import EditTaskModal from "../EditTaskModal/EditTaskModal";
+import { useNavigate } from "react-router-dom";
 
 const TaskList: React.FC = () => {
   const { tasks, categories } = useGlobalContext();
   const [openEditModal, setOpenEditModal] = useState(false);
   const [currentTaskId, setCurrentTaskId] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const pendingTasks = tasks.filter((task) => !task.completed);
   const completedTasks = tasks.filter((task) => task.completed);
@@ -17,8 +19,7 @@ const TaskList: React.FC = () => {
   };
 
   const handleTaskClick = (taskId: string) => {
-    setCurrentTaskId(taskId);
-    setOpenEditModal(true);
+    navigate(`/task/${taskId}`);
   };
 
   const handleCloseEditModal = () => {
@@ -146,7 +147,6 @@ const TaskList: React.FC = () => {
         <Typography variant="body1">No hay tareas completadas.</Typography>
       )}
 
-      {/* Modal para editar tarea */}
       <EditTaskModal
         open={openEditModal}
         onClose={handleCloseEditModal}

@@ -5,7 +5,7 @@ import UpdateTaskForm from "../UpdateTaskForm/UpdateTaskForm";
 interface EditModalProps {
   open: boolean;
   onClose: () => void;
-  taskId: string; // ID de la tarea a editar
+  taskId?: string;
 }
 
 const EditTaskModal: React.FC<EditModalProps> = ({ open, onClose, taskId }) => {
@@ -25,7 +25,7 @@ const EditTaskModal: React.FC<EditModalProps> = ({ open, onClose, taskId }) => {
           bgcolor: "rgba(0, 0, 0, 0.5)",
         }}
       >
-        <UpdateTaskForm taskId={taskId} onCancel={onClose} />
+        <UpdateTaskForm taskId={taskId || ""} onCancel={onClose} />
       </Box>
     </Modal>
   );

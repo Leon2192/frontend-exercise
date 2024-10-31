@@ -1,12 +1,14 @@
-import React, { useState } from "react";
-import { Modal, Fab } from "@mui/material";
-import TaskForm from "../TaskForm/TaskForm";
+// TaskModal.tsx
+import React from "react";
+import { Fab } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const TaskModal: React.FC = () => {
-  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleOpen = () => {
+    navigate("/new-task");
+  };
 
   return (
     <div>
@@ -39,25 +41,6 @@ const TaskModal: React.FC = () => {
           />
         </svg>
       </Fab>
-
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-title"
-        aria-describedby="modal-description"
-      >
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100vh",
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-          }}
-        >
-          <TaskForm onCancel={handleClose} />
-        </div>
-      </Modal>
     </div>
   );
 };
