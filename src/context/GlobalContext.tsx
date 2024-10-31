@@ -7,6 +7,7 @@ import {
   fetchTaskById,
 } from "../actions/taskActions";
 import { fetchCategories } from "../actions/categoryActions";
+import AlertSnackbar from "../components/ui/AlertModal/AlertModal";
 
 const GlobalContext = createContext<IGlobalContext | undefined>(undefined);
 
@@ -15,6 +16,8 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState<string>("");
 
   useEffect(() => {
     const loadTasks = async () => {
@@ -39,12 +42,24 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({
     loadCategories();
   }, []);
 
+  // Toasts
+  const handleOpenSnackbar = (message: string) => {
+    setSnackbarMessage(message);
+    setSnackbarOpen(true);
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbarOpen(false);
+  };
+
   const handleAddTask = async (task: Omit<Task, "id">) => {
     try {
       const newTask = await addTaskAction(task);
       setTasks((prevTasks) => [...prevTasks, newTask]);
+      handleOpenSnackbar("Tarea agregada exitosamente.");
     } catch (error) {
       console.error("Error al agregar tarea:", error);
+      handleOpenSnackbar("Error al agregar tarea.");
     }
   };
 
@@ -54,8 +69,10 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({
       setTasks((prevTasks) =>
         prevTasks.map((t) => (t.id === updatedTask.id ? updatedTask : t))
       );
+      handleOpenSnackbar("Tarea editada exitosamente.");
     } catch (error) {
       console.error(`Error al editar tarea con ID ${id}:`, error);
+      handleOpenSnackbar(`Error al editar tarea con ID ${id}.`);
     }
   };
 
@@ -67,9 +84,6 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({
       return undefined;
     }
   };
-
-  console.log(tasks, "tasks");
-  console.log(categories, "categories");
 
   return (
     <GlobalContext.Provider
@@ -83,6 +97,12 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({
       }}
     >
       {children}
+      <AlertSnackbar
+        open={snackbarOpen}
+        onClose={handleCloseSnackbar}
+        title="Mensaje:"
+        content={snackbarMessage}
+      />
     </GlobalContext.Provider>
   );
 };

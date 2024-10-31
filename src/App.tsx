@@ -8,6 +8,7 @@ import Home from "./screens/Home/Home";
 import NewTask from "./screens/NewTask/NewTask";
 import TaskDetails from "./screens/TaskDetails/TaskDetails";
 import TaskModal from "./components/shared/TaskModal/TaskModal";
+import NotFound from "./screens/NotFound/NotFound";
 
 const theme = createTheme();
 
@@ -16,11 +17,12 @@ function App() {
     <Router>
       <CssBaseline />
       <ThemeProvider theme={theme}>
-        <TaskModal/>
+        <TaskModal />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/new-task" element={<NewTask />} />
           <Route path="/task/:id" element={<TaskDetails />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </ThemeProvider>
     </Router>

@@ -40,7 +40,7 @@
     {
       "title": "Comprar 1kg de tomates",
       "description": "Bien maduros",
-      "category_id": "c135e963-95be-57c5-926c-fee29681b66d",
+      "category_id": "65125b62-8778-5bc8-89ac-098057b9a390",
       "id": "664a90a5-22ed-588c-b113-b6373f5f4dd3"
     },
     {
@@ -66,8 +66,8 @@
     },
     {
       "title": "Task updated",
-      "description": "tarea modificada correctamente",
-      "category_id": "24c202cd-6076-58aa-a2e2-3bc3f7d99428",
+      "description": "tarea modificada",
+      "category_id": "65125b62-8778-5bc8-89ac-098057b9a390",
       "id": "dqT0vSl"
     }
   ]
