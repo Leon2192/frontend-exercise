@@ -16,7 +16,7 @@ export const fetchTasks = async (): Promise<Task[]> => {
   }
 };
 
-export const fetchTaskById = async (id: number): Promise<Task> => {
+export const fetchTaskById = async (id: string): Promise<Task> => {
   try {
     const task = await getTaskByIdService(id);
     return task;
@@ -37,7 +37,7 @@ export const addTask = async (task: Omit<Task, "id">): Promise<Task> => {
 };
 
 export const editTask = async (
-  id: number,
+  id: string,
   task: Partial<Task>
 ): Promise<Task> => {
   try {

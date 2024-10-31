@@ -15,7 +15,7 @@ export const getTasksService = async (): Promise<Task[]> => {
 };
 
 // Obtener una tarea por ID
-export const getTaskByIdService = async (id: number): Promise<Task> => {
+export const getTaskByIdService = async (id: string): Promise<Task> => {
   try {
     const response = await axios.get(`${API_BASE_URL}/tasks/${id}`);
     return response.data;
@@ -40,7 +40,7 @@ export const createTaskService = async (
 
 // Actualizar una tarea
 export const updateTaskService = async (
-  id: number,
+  id: string,
   task: Partial<Task>
 ): Promise<Task> => {
   try {

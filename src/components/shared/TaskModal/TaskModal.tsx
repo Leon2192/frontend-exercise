@@ -13,12 +13,12 @@ const TaskModal: React.FC = () => {
       <Fab
         onClick={handleOpen}
         sx={{
-          position: 'fixed',
+          position: "fixed",
           bottom: 16,
           right: 16,
-          backgroundColor: '#0ea5e9', 
-          '&:hover': {
-            backgroundColor: '#1565c0', 
+          backgroundColor: "#0ea5e9",
+          "&:hover": {
+            backgroundColor: "#1565c0",
           },
         }}
         aria-label="Agregar tarea"
@@ -30,7 +30,7 @@ const TaskModal: React.FC = () => {
           strokeWidth={1.5}
           stroke="currentColor"
           className="size-6"
-          style={{ width: '24px', height: '24px', color: '#fff' }}
+          style={{ width: "24px", height: "24px", color: "#fff" }}
         >
           <path
             strokeLinecap="round"
@@ -52,10 +52,10 @@ const TaskModal: React.FC = () => {
             justifyContent: "center",
             alignItems: "center",
             height: "100vh",
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
           }}
         >
-          <TaskForm onCancel={handleClose} /> 
+          <TaskForm onCancel={handleClose} />
         </div>
       </Modal>
     </div>

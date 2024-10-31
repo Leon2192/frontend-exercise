@@ -64,6 +64,12 @@
       "description": "Materias aprobadas 46/46",
       "category_id": "24c202cd-6076-58aa-a2e2-3bc3f7d99428",
       "completed": true
+    },
+    {
+      "title": "Nueva tarea agregada",
+      "description": "tarea modificada correctamente",
+      "category_id": "24c202cd-6076-58aa-a2e2-3bc3f7d99428",
+      "id": "dqT0vSl"
     }
   ]
 }

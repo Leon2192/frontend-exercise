@@ -48,18 +48,18 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
-  const handleEditTask = async (id: number, task: Partial<Task>) => {
+  const handleEditTask = async (id: string, task: Partial<Task>) => {
     try {
       const updatedTask = await editTaskAction(id, task);
       setTasks((prevTasks) =>
         prevTasks.map((t) => (t.id === updatedTask.id ? updatedTask : t))
-      ); 
+      );
     } catch (error) {
       console.error(`Error al editar tarea con ID ${id}:`, error);
     }
   };
 
-  const handleFetchTaskById = async (id: number): Promise<Task | undefined> => {
+  const handleFetchTaskById = async (id: string): Promise<Task | undefined> => {
     try {
       return await fetchTaskById(id);
     } catch (error) {
