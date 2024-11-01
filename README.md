@@ -9,7 +9,6 @@ Para comenzar, sigue estos pasos para clonar el repositorio y ejecutar el proyec
 1. Clonar este repositorio:
 
   - git clone https://github.com/Leon2192/frontend-exercise
-   cd frontend-exercise
 
 2. Accede al directorio del proyecto:
 
