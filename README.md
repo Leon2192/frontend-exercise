@@ -1,6 +1,6 @@
 ![Project Preview](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxoF-12UQ55BcGVU0UwItzoZbu667nnNdcJA&s)
 
-# Ejercicio técnico frontend - Minder
+# Ejercicio técnico frontend
 
 ## Instalación 
 
