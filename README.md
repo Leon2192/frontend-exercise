@@ -2,7 +2,7 @@
 
 # Ejercicio técnico frontend - Minder
 
-## Installation
+## Instalación 
 
 Para comenzar, sigue estos pasos para clonar el repositorio y ejecutar el proyecto en modo desarrollo:
 
