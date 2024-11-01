@@ -21,7 +21,7 @@ Para comenzar, sigue estos pasos para clonar el repositorio y ejecutar el proyec
 4. Para iniciar la API REST (json-server) ejecutar:
   - npm run db
 
-5. Para inciar la aplicación ejecutar:
+5. Para iniciar la aplicacion ejecutar:
   - npm run dev
 
 ## Variables de entorno
