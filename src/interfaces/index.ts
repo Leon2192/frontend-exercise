@@ -19,4 +19,5 @@ export interface IGlobalContext {
   handleAddTask: (task: Omit<Task, "id">) => Promise<void>;
   handleEditTask: (id: string, task: Partial<Task>) => Promise<void>;
   handleFetchTaskById: (id: string) => Promise<Task | undefined>;
+  handleDeleteTask: (id: string) => Promise<void>;
 }

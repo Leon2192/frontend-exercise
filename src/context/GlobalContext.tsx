@@ -4,6 +4,7 @@ import {
   addTask as addTaskAction,
   editTask as editTaskAction,
   fetchTaskById,
+  removeTask,
 } from "../actions/taskActions";
 import AlertModal from "../components/shared/AlertModal/AlertModal";
 import { useLoadData } from "../utilities/hooks/useLoadData";
@@ -75,6 +76,21 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
+  const handleDeleteTask = async (id: string) => {
+    try {
+      await removeTask(id);
+      setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
+      localStorage.setItem(
+        "tasks",
+        JSON.stringify(tasks.filter((task) => task.id !== id))
+      );
+      handleOpenSnackbar("Tarea eliminada exitosamente.");
+    } catch (error) {
+      console.error(`Error al eliminar la tarea con ID ${id}:`, error);
+      handleOpenSnackbar("Error al eliminar tarea.");
+    }
+  };
+
   return (
     <GlobalContext.Provider
       value={{
@@ -84,6 +100,7 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({
         handleAddTask,
         handleEditTask,
         handleFetchTaskById,
+        handleDeleteTask,
       }}
     >
       {loading ? <Loader message="Cargando datos..." /> : children}

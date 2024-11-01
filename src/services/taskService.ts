@@ -69,3 +69,16 @@ export const updateTaskService = async (
     throw error;
   }
 };
+
+// Eliminar una task
+export const deleteTaskService = async (id: string): Promise<void> => {
+  try {
+    await axios.delete(`${API_BASE_URL}/tasks/${id}`);
+    const tasksInStorage = JSON.parse(localStorage.getItem("tasks") || "[]");
+    const updatedTasksInStorage = tasksInStorage.filter((task: Task) => task.id !== id);
+    localStorage.setItem("tasks", JSON.stringify(updatedTasksInStorage));
+  } catch (error) {
+    console.error(`Error al eliminar la tarea con ID ${id}:`, error);
+    throw error;
+  }
+};
