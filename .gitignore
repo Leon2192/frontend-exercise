@@ -26,3 +26,4 @@ dist-ssr
 *Zone.Identifier
 *.zone.identifier
 *zone.identifier
+.env

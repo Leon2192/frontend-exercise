@@ -19,11 +19,25 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState<string>("");
 
+  const handleOpenSnackbar = (message: string) => {
+    setSnackbarMessage(message);
+    setSnackbarOpen(true);
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbarOpen(false);
+  };
+
   useEffect(() => {
     const loadTasks = async () => {
       try {
-        const loadedTasks = await fetchTasks();
-        setTasks(loadedTasks);
+        const storedTasks = localStorage.getItem("tasks");
+        if (storedTasks) {
+          setTasks(JSON.parse(storedTasks));
+        } else {
+          const loadedTasks = await fetchTasks();
+          setTasks(loadedTasks);
+        }
       } catch (error) {
         console.error("Error al cargar tareas:", error);
       }
@@ -42,20 +56,11 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({
     loadCategories();
   }, []);
 
-  // Toasts
-  const handleOpenSnackbar = (message: string) => {
-    setSnackbarMessage(message);
-    setSnackbarOpen(true);
-  };
-
-  const handleCloseSnackbar = () => {
-    setSnackbarOpen(false);
-  };
-
   const handleAddTask = async (task: Omit<Task, "id">) => {
     try {
       const newTask = await addTaskAction(task);
       setTasks((prevTasks) => [...prevTasks, newTask]);
+      localStorage.setItem("tasks", JSON.stringify([...tasks, newTask]));
       handleOpenSnackbar("Tarea agregada exitosamente.");
     } catch (error) {
       console.error("Error al agregar tarea:", error);
@@ -69,6 +74,11 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({
       setTasks((prevTasks) =>
         prevTasks.map((t) => (t.id === updatedTask.id ? updatedTask : t))
       );
+      const tasksInStorage = JSON.parse(localStorage.getItem("tasks") || "[]");
+      const updatedTasksInStorage = tasksInStorage.map((t: Task) =>
+        t.id === updatedTask.id ? updatedTask : t
+      );
+      localStorage.setItem("tasks", JSON.stringify(updatedTasksInStorage));
       handleOpenSnackbar("Tarea editada exitosamente.");
     } catch (error) {
       console.error(`Error al editar tarea con ID ${id}:`, error);
