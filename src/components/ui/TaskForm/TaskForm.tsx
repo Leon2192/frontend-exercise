@@ -10,6 +10,7 @@ import {
 import { useGlobalContext } from "../../../utilities/hooks/useGlobalContext";
 import TextInput from "../../shared/TextInput/TextInput";
 import SelectorInput from "../../shared/SelectorInput/SelectorInput";
+import { TaskStatus } from "../../../types";
 
 interface TaskFormProps {
   onCancel: () => void;
@@ -27,7 +28,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [categoryId, setCategoryId] = useState("");
-  const [status, setStatus] = useState("pending");
+  const [status, setStatus] = useState<TaskStatus>("Pendiente");
 
   useEffect(() => {
     if (taskId) {
@@ -37,7 +38,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
           setTitle(task.title ?? "");
           setDescription(task.description ?? "");
           setCategoryId(task.category_id ?? "");
-          setStatus(task.completed ? "completed" : "pending");
+          setStatus(task.completed ? "Terminada" : "Pendiente");
         }
       };
 
@@ -47,7 +48,7 @@ const TaskForm: React.FC<TaskFormProps> = ({
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    const isCompleted = status === "completed";
+    const isCompleted = status === "Terminada";
     if (taskId) {
       handleEditTask(taskId, {
         title,
@@ -117,11 +118,11 @@ const TaskForm: React.FC<TaskFormProps> = ({
           <Select
             labelId="status-select-label"
             value={status}
-            onChange={(e) => setStatus(e.target.value as string)}
+            onChange={(e) => setStatus(e.target.value as TaskStatus)}
             required
           >
-            <MenuItem value="pending">Pendiente</MenuItem>
-            <MenuItem value="completed">Terminada</MenuItem>
+            <MenuItem value="Pendiente">Pendiente</MenuItem>
+            <MenuItem value="Terminada">Terminada</MenuItem>
           </Select>
         </FormControl>
       )}
