@@ -32,6 +32,12 @@ Para comenzar, sigue estos pasos para clonar el repositorio y ejecutar el proyec
 |--------------------|---------------------|----------------------------------|
 | `VITE_API_BASE_URL` | `http://localhost:3000` | La URL base de la API para el entorno de desarrollo. |
 
+Se puede simplemente copiar desde aca:
+
+```javascript
+VITE_API_BASE_URL=http://localhost:3000
+```
+
 ### Ejemplo de uso
 
 Se puede acceder a la variable de entorno en tu proyecto de la siguiente manera:
