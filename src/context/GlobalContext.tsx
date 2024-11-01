@@ -7,7 +7,7 @@ import {
   fetchTaskById,
 } from "../actions/taskActions";
 import { fetchCategories } from "../actions/categoryActions";
-import AlertSnackbar from "../components/ui/AlertModal/AlertModal";
+import AlertSnackbar from "../components/shared/AlertModal/AlertModal";
 
 const GlobalContext = createContext<IGlobalContext | undefined>(undefined);
 

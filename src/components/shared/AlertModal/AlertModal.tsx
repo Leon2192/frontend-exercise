@@ -18,9 +18,9 @@ const AlertSnackbar: React.FC<AlertSnackbarProps> = ({
   return (
     <Snackbar
       open={open}
-      autoHideDuration={2000} // Duración de 2 segundos
+      autoHideDuration={2000} 
       onClose={onClose}
-      anchorOrigin={{ vertical: "top", horizontal: "center" }} // Posición de la alerta
+      anchorOrigin={{ vertical: "top", horizontal: "center" }} 
     >
       <Alert onClose={onClose} severity="info" sx={{ width: "100%" }}>
         <strong>{title}</strong>: {content}

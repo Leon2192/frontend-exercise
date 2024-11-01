@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import TaskForm from "../../components/shared/TaskForm/TaskForm";
+import TaskForm from "../../components/ui/TaskForm/TaskForm";
 import { Modal } from "@mui/material";
 
 const NewTask: React.FC = () => {

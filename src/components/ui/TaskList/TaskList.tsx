@@ -6,16 +6,12 @@ import {
   Divider,
   Checkbox,
   Button,
-  Select,
-  MenuItem,
-  FormControl,
 } from "@mui/material";
 import { useGlobalContext } from "../../../utilities/hooks/useGlobalContext";
 import { useNavigate } from "react-router-dom";
-import statusTasks from "../../../constants/status.json";
 
 const TaskList: React.FC = () => {
-  const { tasks, setTasks, categories } = useGlobalContext();
+  const { tasks,  categories } = useGlobalContext();
   const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null);
   const navigate = useNavigate();
 
@@ -35,14 +31,6 @@ const TaskList: React.FC = () => {
 
   const handleEditClick = (taskId: string) => {
     navigate(`/task/${taskId}`);
-  };
-
-  const handleChangeStatus = (taskId: string, completed: boolean) => {
-    setTasks((prevTasks) =>
-      prevTasks.map((task) =>
-        task.id === taskId ? { ...task, completed } : task
-      )
-    );
   };
 
   return (
@@ -121,24 +109,6 @@ const TaskList: React.FC = () => {
                     >
                       Editar
                     </Button>
-                    <FormControl variant="outlined" size="small">
-                      <Select
-                        labelId={`status-select-label-${task.id}`}
-                        value={task.completed ? "completed" : "pending"}
-                        onChange={(e) =>
-                          handleChangeStatus(
-                            task.id,
-                            e.target.value === "completed"
-                          )
-                        }
-                      >
-                        {statusTasks.statuses.map((status) => (
-                          <MenuItem key={status.id} value={status.id}>
-                            {status.label}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
                   </Box>
                 )}
               </Box>
@@ -150,7 +120,6 @@ const TaskList: React.FC = () => {
       )}
 
       <Divider sx={{ my: 4 }} />
-
       {/* Tareas Completadas */}
       <Box
         sx={{
@@ -202,24 +171,6 @@ const TaskList: React.FC = () => {
                     >
                       Editar
                     </Button>
-                    <FormControl variant="outlined" size="small">
-                      <Select
-                        labelId={`status-select-label-${task.id}`}
-                        value={task.completed ? "completed" : "pending"}
-                        onChange={(e) =>
-                          handleChangeStatus(
-                            task.id,
-                            e.target.value === "completed"
-                          )
-                        }
-                      >
-                        {statusTasks.statuses.map((status) => (
-                          <MenuItem key={status.id} value={status.id}>
-                            {status.label}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
                   </Box>
                 )}
               </Box>

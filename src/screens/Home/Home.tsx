@@ -1,4 +1,4 @@
-import TaskList from "../../components/shared/TaskList/TaskList";
+import TaskList from "../../components/ui/TaskList/TaskList";
 
 const Home = () => {
  

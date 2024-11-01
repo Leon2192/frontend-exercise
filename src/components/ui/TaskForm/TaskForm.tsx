@@ -1,44 +1,55 @@
 import React, { useEffect, useState } from "react";
-import { Button, Box, Typography } from "@mui/material";
+import { Button, Box, Typography, Select, MenuItem, FormControl} from "@mui/material";
 import { useGlobalContext } from "../../../utilities/hooks/useGlobalContext";
-import TextInput from "../../ui/TextInput/TextInput";
-import SelectorInput from "../../ui/SelectorInput/SelectorInput";
+import TextInput from "../../shared/TextInput/TextInput";
+import SelectorInput from "../../shared/SelectorInput/SelectorInput";
 
-interface UpdateTaskFormProps {
-  taskId: string;
+interface TaskFormProps {
   onCancel: () => void;
+  taskId?: string; 
 }
 
-const UpdateTaskForm: React.FC<UpdateTaskFormProps> = ({
-  taskId,
-  onCancel,
-}) => {
-  const { categories, handleEditTask, handleFetchTaskById } =
-    useGlobalContext();
-  const [title, setTitle] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
-  const [categoryId, setCategoryId] = useState<string>("");
+const TaskForm: React.FC<TaskFormProps> = ({ onCancel, taskId }) => {
+  const { categories, handleAddTask, handleEditTask, handleFetchTaskById } = useGlobalContext();
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [categoryId, setCategoryId] = useState("");
+  const [status, setStatus] = useState("pending"); 
 
   useEffect(() => {
-    const fetchTask = async () => {
-      const task = await handleFetchTaskById(taskId);
-      if (task) {
-        setTitle(task.title ?? "");
-        setDescription(task.description ?? "");
-        setCategoryId(task.category_id ?? "");
-      }
-    };
+    if (taskId) {
+      const fetchTask = async () => {
+        const task = await handleFetchTaskById(taskId);
+        if (task) {
+          setTitle(task.title ?? "");
+          setDescription(task.description ?? "");
+          setCategoryId(task.category_id ?? "");
+          setStatus(task.completed ? "completed" : "pending"); 
+        }
+      };
 
-    fetchTask();
+      fetchTask();
+    }
   }, [taskId, handleFetchTaskById]);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    handleEditTask(taskId, {
-      title,
-      description,
-      category_id: categoryId,
-    });
+    const isCompleted = status === "completed";
+    if (taskId) {
+      handleEditTask(taskId, {
+        title,
+        description,
+        category_id: categoryId,
+        completed: isCompleted, 
+      });
+    } else {
+      handleAddTask({
+        title,
+        description,
+        category_id: categoryId,
+        completed: false,
+      });
+    }
     onCancel();
   };
 
@@ -60,7 +71,7 @@ const UpdateTaskForm: React.FC<UpdateTaskFormProps> = ({
       }}
     >
       <Typography variant="h6" align="left" sx={{ mb: 2 }}>
-        Editar Tarea
+        {taskId ? "Editar Tarea" : "Nueva Tarea"}
       </Typography>
 
       <TextInput
@@ -85,6 +96,19 @@ const UpdateTaskForm: React.FC<UpdateTaskFormProps> = ({
         options={categories}
         required
       />
+      {taskId && (
+        <FormControl variant="outlined" size="small" sx={{ mt: 2 }}>
+          <Select
+            labelId="status-select-label"
+            value={status}
+            onChange={(e) => setStatus(e.target.value as string)}
+            required
+          >
+            <MenuItem value="pending">Pendiente</MenuItem>
+            <MenuItem value="completed">Finalizada</MenuItem>
+          </Select>
+        </FormControl>
+      )}
       <Box
         sx={{
           display: "flex",
@@ -114,11 +138,11 @@ const UpdateTaskForm: React.FC<UpdateTaskFormProps> = ({
             },
           }}
         >
-          Actualizar
+          {taskId ? "Actualizar" : "Crear"}
         </Button>
       </Box>
     </Box>
   );
 };
 
-export default UpdateTaskForm;
+export default TaskForm;
