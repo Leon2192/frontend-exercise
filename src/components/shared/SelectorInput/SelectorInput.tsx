@@ -11,7 +11,7 @@ import {
 interface SelectorInputProps {
   label: string;
   value: string;
-  onChange: (event: SelectChangeEvent<unknown>) => void;
+onChange: (event: SelectChangeEvent<string>) => void;
   options: { id: string; name: string }[];
   required?: boolean;
 }

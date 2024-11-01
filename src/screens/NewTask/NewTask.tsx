@@ -7,19 +7,27 @@ const NewTask: React.FC = () => {
   const [open, setOpen] = useState(true);
   const navigate = useNavigate();
 
-  const handleClose = () => {
-    setOpen(false); 
-    navigate("/"); 
+  const handleCloseClickOutside = (event: React.MouseEvent<HTMLElement>) => {
+    if (event.target === event.currentTarget) {
+      setOpen(false);
+      navigate("/");
+    }
+  };
+
+  const handleCloseCancel = () => {
+    setOpen(false);
+    navigate("/");
   };
 
   return (
     <Modal
       open={open}
-      onClose={handleClose}
+      onClose={handleCloseClickOutside}
       aria-labelledby="modal-title"
       aria-describedby="modal-description"
     >
       <div
+        onClick={handleCloseClickOutside}
         style={{
           display: "flex",
           justifyContent: "center",
@@ -28,7 +36,10 @@ const NewTask: React.FC = () => {
           backgroundColor: "rgba(0, 0, 0, 0.5)",
         }}
       >
-        <TaskForm onCancel={handleClose} />
+        <TaskForm
+          onCancel={handleCloseCancel}
+          onCancelWithEvent={handleCloseClickOutside}
+        />
       </div>
     </Modal>
   );

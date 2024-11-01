@@ -17,20 +17,28 @@ const TaskDetails = () => {
     }
   }, [id, handleFetchTaskById]);
 
-  const handleCloseEditModal = () => {
+  const handleCloseCancel = () => {
     setOpenEditModal(false);
     navigate("/");
+  };
+
+  const handleCloseClickOutside = (event: React.MouseEvent<HTMLElement>) => {
+    if (event.target === event.currentTarget) {
+      setOpenEditModal(false);
+      navigate("/");
+    }
   };
 
   return (
     <>
       <Modal
         open={openEditModal}
-        onClose={handleCloseEditModal}
+        onClose={handleCloseClickOutside}
         aria-labelledby="edit-task-modal-title"
         aria-describedby="edit-task-modal-description"
       >
         <Box
+          onClick={handleCloseClickOutside}
           sx={{
             display: "flex",
             justifyContent: "center",
@@ -39,7 +47,11 @@ const TaskDetails = () => {
             bgcolor: "rgba(0, 0, 0, 0.5)",
           }}
         >
-          <TaskForm onCancel={handleCloseEditModal} taskId={id} />
+          <TaskForm
+            onCancelWithEvent={handleCloseClickOutside}
+            onCancel={handleCloseCancel}
+            taskId={id}
+          />
         </Box>
       </Modal>
     </>

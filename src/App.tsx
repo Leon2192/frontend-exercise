@@ -7,8 +7,8 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./screens/Home/Home";
 import NewTask from "./screens/NewTask/NewTask";
 import TaskDetails from "./screens/TaskDetails/TaskDetails";
-import TaskModal from "./components/shared/TaskModal/TaskModal";
 import NotFound from "./screens/NotFound/NotFound";
+import FabTasks from "./components/shared/FABTasks/FabTasks";
 
 const theme = createTheme();
 
@@ -17,7 +17,7 @@ function App() {
     <Router>
       <CssBaseline />
       <ThemeProvider theme={theme}>
-        <TaskModal />
+        <FabTasks />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/new-task" element={<NewTask />} />

@@ -1,20 +1,33 @@
 import React, { useEffect, useState } from "react";
-import { Button, Box, Typography, Select, MenuItem, FormControl} from "@mui/material";
+import {
+  Button,
+  Box,
+  Typography,
+  Select,
+  MenuItem,
+  FormControl,
+} from "@mui/material";
 import { useGlobalContext } from "../../../utilities/hooks/useGlobalContext";
 import TextInput from "../../shared/TextInput/TextInput";
 import SelectorInput from "../../shared/SelectorInput/SelectorInput";
 
 interface TaskFormProps {
   onCancel: () => void;
-  taskId?: string; 
+  onCancelWithEvent: (event: React.MouseEvent<HTMLElement>) => void;
+  taskId?: string;
 }
 
-const TaskForm: React.FC<TaskFormProps> = ({ onCancel, taskId }) => {
-  const { categories, handleAddTask, handleEditTask, handleFetchTaskById } = useGlobalContext();
+const TaskForm: React.FC<TaskFormProps> = ({
+  onCancel,
+  onCancelWithEvent,
+  taskId,
+}) => {
+  const { categories, handleAddTask, handleEditTask, handleFetchTaskById } =
+    useGlobalContext();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [categoryId, setCategoryId] = useState("");
-  const [status, setStatus] = useState("pending"); 
+  const [status, setStatus] = useState("pending");
 
   useEffect(() => {
     if (taskId) {
@@ -24,7 +37,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ onCancel, taskId }) => {
           setTitle(task.title ?? "");
           setDescription(task.description ?? "");
           setCategoryId(task.category_id ?? "");
-          setStatus(task.completed ? "completed" : "pending"); 
+          setStatus(task.completed ? "completed" : "pending");
         }
       };
 
@@ -40,7 +53,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ onCancel, taskId }) => {
         title,
         description,
         category_id: categoryId,
-        completed: isCompleted, 
+        completed: isCompleted,
       });
     } else {
       handleAddTask({
@@ -98,6 +111,9 @@ const TaskForm: React.FC<TaskFormProps> = ({ onCancel, taskId }) => {
       />
       {taskId && (
         <FormControl variant="outlined" size="small" sx={{ mt: 2 }}>
+          <Typography variant="subtitle1" sx={{ mb: 1 }}>
+            Estado
+          </Typography>
           <Select
             labelId="status-select-label"
             value={status}
@@ -105,7 +121,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ onCancel, taskId }) => {
             required
           >
             <MenuItem value="pending">Pendiente</MenuItem>
-            <MenuItem value="completed">Finalizada</MenuItem>
+            <MenuItem value="completed">Terminada</MenuItem>
           </Select>
         </FormControl>
       )}
@@ -124,7 +140,7 @@ const TaskForm: React.FC<TaskFormProps> = ({ onCancel, taskId }) => {
             color: "#1976d2",
             borderColor: "#1976d2",
           }}
-          onClick={onCancel}
+          onClick={onCancelWithEvent}
         >
           Cancelar
         </Button>

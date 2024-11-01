@@ -2,14 +2,14 @@ import React from "react";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 
-interface AlertSnackbarProps {
+interface AlertModalProps {
   open: boolean;
   onClose: () => void;
   title: string;
   content: string;
 }
 
-const AlertSnackbar: React.FC<AlertSnackbarProps> = ({
+const AlertModal: React.FC<AlertModalProps> = ({
   open,
   onClose,
   title,
@@ -29,4 +29,4 @@ const AlertSnackbar: React.FC<AlertSnackbarProps> = ({
   );
 };
 
-export default AlertSnackbar;
+export default AlertModal;

@@ -13,7 +13,7 @@ export const getTasksService = async (): Promise<Task[]> => {
 
   try {
     const response = await axios.get(`${API_BASE_URL}/tasks`);
-    localStorage.setItem("tasks", JSON.stringify(response.data)); 
+    localStorage.setItem("tasks", JSON.stringify(response.data));
     return response.data;
   } catch (error) {
     console.error("Error al obtener las tareas:", error);
@@ -25,6 +25,17 @@ export const getTasksService = async (): Promise<Task[]> => {
 export const getTaskByIdService = async (id: string): Promise<Task> => {
   try {
     const response = await axios.get(`${API_BASE_URL}/tasks/${id}`);
+    const tasksInStorage = JSON.parse(localStorage.getItem("tasks") || "[]");
+    const updatedTasksInStorage = tasksInStorage.map((task: Task) =>
+      task.id === id ? response.data : task
+    );
+
+    if (!updatedTasksInStorage.find((task: Task) => task.id === id)) {
+      updatedTasksInStorage.push(response.data);
+    }
+
+    localStorage.setItem("tasks", JSON.stringify(updatedTasksInStorage));
+
     return response.data;
   } catch (error) {
     console.error(`Error al obtener la tarea con ID ${id}:`, error);

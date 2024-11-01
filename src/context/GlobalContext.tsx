@@ -1,21 +1,20 @@
-import React, { createContext, ReactNode, useState, useEffect } from "react";
-import { IGlobalContext, Task, Category } from "../interfaces";
+import React, { createContext, ReactNode, useState } from "react";
+import { IGlobalContext, Task } from "../interfaces";
 import {
-  fetchTasks,
   addTask as addTaskAction,
   editTask as editTaskAction,
   fetchTaskById,
 } from "../actions/taskActions";
-import { fetchCategories } from "../actions/categoryActions";
-import AlertSnackbar from "../components/shared/AlertModal/AlertModal";
+import AlertModal from "../components/shared/AlertModal/AlertModal";
+import { useLoadData } from "../utilities/hooks/useLoadData";
+import Loader from "../components/shared/Loader/Loader";
 
 const GlobalContext = createContext<IGlobalContext | undefined>(undefined);
 
 export const GlobalProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [categories, setCategories] = useState<Category[]>([]);
+  const { tasks, categories, error, loading, setTasks } = useLoadData();
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState<string>("");
 
@@ -27,34 +26,6 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({
   const handleCloseSnackbar = () => {
     setSnackbarOpen(false);
   };
-
-  useEffect(() => {
-    const loadTasks = async () => {
-      try {
-        const storedTasks = localStorage.getItem("tasks");
-        if (storedTasks) {
-          setTasks(JSON.parse(storedTasks));
-        } else {
-          const loadedTasks = await fetchTasks();
-          setTasks(loadedTasks);
-        }
-      } catch (error) {
-        console.error("Error al cargar tareas:", error);
-      }
-    };
-
-    const loadCategories = async () => {
-      try {
-        const loadedCategories = await fetchCategories();
-        setCategories(loadedCategories);
-      } catch (error) {
-        console.error("Error al cargar categorías:", error);
-      }
-    };
-
-    loadTasks();
-    loadCategories();
-  }, []);
 
   const handleAddTask = async (task: Omit<Task, "id">) => {
     try {
@@ -87,6 +58,15 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const handleFetchTaskById = async (id: string): Promise<Task | undefined> => {
+    const tasksInStorage = localStorage.getItem("tasks");
+    if (tasksInStorage) {
+      const tasks: Task[] = JSON.parse(tasksInStorage);
+      const task = tasks.find((t) => t.id === id);
+      if (task) {
+        return task;
+      }
+    }
+    // Si no se encuentran cacheadas en el local hago la solicitud
     try {
       return await fetchTaskById(id);
     } catch (error) {
@@ -106,12 +86,12 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({
         handleFetchTaskById,
       }}
     >
-      {children}
-      <AlertSnackbar
+      {loading ? <Loader message="Cargando datos..." /> : children}
+      <AlertModal
         open={snackbarOpen}
         onClose={handleCloseSnackbar}
         title="Mensaje:"
-        content={snackbarMessage}
+        content={error || snackbarMessage}
       />
     </GlobalContext.Provider>
   );

@@ -2,7 +2,7 @@ import React from "react";
 import { Fab } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-const TaskModal: React.FC = () => {
+const FabTasks: React.FC = () => {
   const navigate = useNavigate();
 
   const handleOpen = () => {
@@ -44,4 +44,4 @@ const TaskModal: React.FC = () => {
   );
 };
 
-export default TaskModal;
+export default FabTasks;

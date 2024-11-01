@@ -9,6 +9,7 @@ interface TextInputProps {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   required?: boolean;
   maxLength?: number;
+  name?: string;
 }
 
 const TextInput: React.FC<TextInputProps> = ({
