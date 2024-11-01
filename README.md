@@ -39,7 +39,7 @@ Se puede acceder a la variable de entorno en tu proyecto de la siguiente manera:
 
 ```javascript
 const apiDomain = import.meta.env.VITE_API_BASE_URL;
-
+```
 ## Tecnologias
 
 * React, Context, MUI, Typescript
