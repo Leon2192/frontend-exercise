@@ -31,8 +31,7 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({
   const handleAddTask = async (task: Omit<Task, "id">) => {
     try {
       const newTask = await addTaskAction(task);
-      setTasks((prevTasks) => [...prevTasks, newTask]);
-      localStorage.setItem("tasks", JSON.stringify([...tasks, newTask]));
+      setTasks([...tasks, newTask]);
       handleOpenSnackbar("Tarea agregada exitosamente.");
     } catch (error) {
       console.error("Error al agregar tarea:", error);
@@ -40,34 +39,21 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
-  const handleEditTask = async (id: string, task: Partial<Task>) => {
+  const handleEditTask = async (id: string, task: Partial<Task>): Promise<void> => {
     try {
       const updatedTask = await editTaskAction(id, task);
-      setTasks((prevTasks) =>
-        prevTasks.map((t) => (t.id === updatedTask.id ? updatedTask : t))
-      );
-      const tasksInStorage = JSON.parse(localStorage.getItem("tasks") || "[]");
-      const updatedTasksInStorage = tasksInStorage.map((t: Task) =>
-        t.id === updatedTask.id ? updatedTask : t
-      );
-      localStorage.setItem("tasks", JSON.stringify(updatedTasksInStorage));
+      setTasks(tasks.map((t:Task) => (t.id === updatedTask.id ? updatedTask : t)));
       handleOpenSnackbar("Tarea editada exitosamente.");
     } catch (error) {
       console.error(`Error al editar tarea con ID ${id}:`, error);
       handleOpenSnackbar(`Error al editar tarea con ID ${id}.`);
     }
   };
-
+  
   const handleFetchTaskById = async (id: string): Promise<Task | undefined> => {
-    const tasksInStorage = localStorage.getItem("tasks");
-    if (tasksInStorage) {
-      const tasks: Task[] = JSON.parse(tasksInStorage);
-      const task = tasks.find((t) => t.id === id);
-      if (task) {
-        return task;
-      }
-    }
-    // Si no se encuentran cacheadas en el local hago la solicitud
+    const task = tasks.find((t: Task) => t.id === id); 
+    if (task) return task;
+  
     try {
       return await fetchTaskById(id);
     } catch (error) {
@@ -75,21 +61,19 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({
       return undefined;
     }
   };
+  
 
-  const handleDeleteTask = async (id: string) => {
+  const handleDeleteTask = async (id: string): Promise<void> => {
     try {
       await removeTask(id);
-      setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
-      localStorage.setItem(
-        "tasks",
-        JSON.stringify(tasks.filter((task) => task.id !== id))
-      );
+      setTasks(tasks.filter((task:Task) => task.id !== id));
       handleOpenSnackbar("Tarea eliminada exitosamente.");
     } catch (error) {
       console.error(`Error al eliminar la tarea con ID ${id}:`, error);
       handleOpenSnackbar("Error al eliminar tarea.");
     }
   };
+  
 
   return (
     <GlobalContext.Provider

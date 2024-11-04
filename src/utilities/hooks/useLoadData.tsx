@@ -1,36 +1,26 @@
-import { useState, useEffect } from "react";
-import { Task, Category } from "../../interfaces";
+import { useEffect, useState } from "react";
 import { fetchTasks } from "../../actions/taskActions";
 import { fetchCategories } from "../../actions/categoryActions";
+import useLocalStorage from "./useLocalStorage";
 
 export const useLoadData = () => {
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [tasks, setTasks] = useLocalStorage("tasks", [], 12);
+  const [categories, setCategories] = useLocalStorage("categories", [], 12);
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(true); 
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const loadData = async () => {
-      setLoading(true); 
+      setLoading(true);
       try {
-        // Cargo tasks, verifico que esten en localstorage antes de fetch
-        const storedTasks = localStorage.getItem("tasks");
-        if (storedTasks) {
-          setTasks(JSON.parse(storedTasks));
-        } else {
+        if (tasks.length === 0) {
           const loadedTasks = await fetchTasks();
           setTasks(loadedTasks);
-          localStorage.setItem("tasks", JSON.stringify(loadedTasks));
         }
 
-        // Cargo categories, verifico que esten en localstorage antes de fetch
-        const storedCategories = localStorage.getItem("categories");
-        if (storedCategories) {
-          setCategories(JSON.parse(storedCategories));
-        } else {
+        if (categories.length === 0) {
           const loadedCategories = await fetchCategories();
           setCategories(loadedCategories);
-          localStorage.setItem("categories", JSON.stringify(loadedCategories));
         }
       } catch (error) {
         console.error("Error al cargar datos:", error);
@@ -41,7 +31,7 @@ export const useLoadData = () => {
     };
 
     loadData();
-  }, []);
+  }, [tasks, categories, setTasks, setCategories]);
 
   return { tasks, categories, error, loading, setTasks, setCategories };
 };

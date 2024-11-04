@@ -5,16 +5,9 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 // Obtener todas las tasks
 export const getTasksService = async (): Promise<Task[]> => {
-  const storageTasks = localStorage.getItem("tasks");
-
-  if (storageTasks) {
-    return JSON.parse(storageTasks);
-  }
-
   try {
     const response = await axios.get(`${API_BASE_URL}/tasks`);
-    localStorage.setItem("tasks", JSON.stringify(response.data));
-    return response.data;
+    return response.data; 
   } catch (error) {
     console.error("Error al obtener las tareas:", error);
     throw error;
@@ -25,18 +18,7 @@ export const getTasksService = async (): Promise<Task[]> => {
 export const getTaskByIdService = async (id: string): Promise<Task> => {
   try {
     const response = await axios.get(`${API_BASE_URL}/tasks/${id}`);
-    const tasksInStorage = JSON.parse(localStorage.getItem("tasks") || "[]");
-    const updatedTasksInStorage = tasksInStorage.map((task: Task) =>
-      task.id === id ? response.data : task
-    );
-
-    if (!updatedTasksInStorage.find((task: Task) => task.id === id)) {
-      updatedTasksInStorage.push(response.data);
-    }
-
-    localStorage.setItem("tasks", JSON.stringify(updatedTasksInStorage));
-
-    return response.data;
+    return response.data; 
   } catch (error) {
     console.error(`Error al obtener la tarea con ID ${id}:`, error);
     throw error;
@@ -63,7 +45,7 @@ export const updateTaskService = async (
 ): Promise<Task> => {
   try {
     const response = await axios.put(`${API_BASE_URL}/tasks/${id}`, task);
-    return response.data;
+    return response.data; 
   } catch (error) {
     console.error(`Error al actualizar la tarea con ID ${id}:`, error);
     throw error;
@@ -74,9 +56,6 @@ export const updateTaskService = async (
 export const deleteTaskService = async (id: string): Promise<void> => {
   try {
     await axios.delete(`${API_BASE_URL}/tasks/${id}`);
-    const tasksInStorage = JSON.parse(localStorage.getItem("tasks") || "[]");
-    const updatedTasksInStorage = tasksInStorage.filter((task: Task) => task.id !== id);
-    localStorage.setItem("tasks", JSON.stringify(updatedTasksInStorage));
   } catch (error) {
     console.error(`Error al eliminar la tarea con ID ${id}:`, error);
     throw error;

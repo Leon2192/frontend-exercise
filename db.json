@@ -76,15 +76,22 @@
       "title": "Reparar notebook",
       "description": "Nueva descripcion.",
       "category_id": "46265b1f-ffba-5cd2-9d55-36ec7e3ac095",
-      "completed": false,
+      "completed": true,
       "id": "5ZxYhuZ"
     },
     {
       "title": "Pagar impuestos",
       "description": "",
-      "category_id": "65125b62-8778-5bc8-89ac-098057b9a390",
-      "completed": false,
+      "category_id": "49078200-32bd-5718-a6e5-5c4e08c0ed9c",
+      "completed": true,
       "id": "sm_K1Mr"
+    },
+    {
+      "title": "Ordenar escritorio",
+      "description": "LImpieza de estacion de trabajo.",
+      "category_id": "8c08c709-6f07-544f-8377-f630a5d0a67d",
+      "completed": true,
+      "id": "DuFPZOz"
     }
   ]
 }
