@@ -31,7 +31,8 @@ export const useLoadData = () => {
     };
 
     loadData();
-  }, [tasks, categories, setTasks, setCategories]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); 
 
   return { tasks, categories, error, loading, setTasks, setCategories };
 };
