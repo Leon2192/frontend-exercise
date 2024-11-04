@@ -9,6 +9,7 @@ import NewTask from "./screens/NewTask/NewTask";
 import TaskDetails from "./screens/TaskDetails/TaskDetails";
 import NotFound from "./screens/NotFound/NotFound";
 import FabTasks from "./components/shared/FABTasks/FabTasks";
+import Error from "./screens/Error/Error";
 
 const theme = createTheme();
 
@@ -23,6 +24,7 @@ function App() {
           <Route path="/new-task" element={<NewTask />} />
           <Route path="/task/:id" element={<TaskDetails />} />
           <Route path="*" element={<NotFound />} />
+          <Route path="/error" element={<Error />} />
         </Routes>
       </ThemeProvider>
     </Router>

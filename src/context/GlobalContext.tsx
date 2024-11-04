@@ -9,6 +9,7 @@ import {
 import AlertModal from "../components/shared/AlertModal/AlertModal";
 import { useLoadData } from "../utilities/hooks/useLoadData";
 import Loader from "../components/shared/Loader/Loader";
+import Error from "../screens/Error/Error";
 
 const GlobalContext = createContext<IGlobalContext | undefined>(undefined);
 
@@ -73,6 +74,10 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({
       handleOpenSnackbar("Error al eliminar tarea.");
     }
   };
+
+  if(error){
+    return <Error/>
+  }
   
 
   return (
